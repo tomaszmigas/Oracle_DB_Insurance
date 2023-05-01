@@ -40,6 +40,3 @@ commit;
 /
 PROMPT Gotowe
 SET FEEDBACK On
-/*
-*/
-PROMPT Dane wprowadzone do DB - Koniec

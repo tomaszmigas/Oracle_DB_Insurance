@@ -45,7 +45,7 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 -- wypełnianie tabel danymi
 @"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\populate_db.sql"
 
-
+PROMPT Instalacja zakonczona.
 
 
 
