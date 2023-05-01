@@ -56,15 +56,24 @@ partition by range (data_zajscia)
 ,partition reszta values less than (maxvalue)
 );
 
-prompt Tworzenie tabeli Kontrahenci...
+
+PROMPT Tworzenie tabeli Rola...
+create table rola(
+ "ID"               number generated always as identity
+,"NAZWA"            varchar2(50) not null
+,constraint rola_pk primary key ("ID")
+,constraint nazwa_check CHECK (NAZWA in('ubezpieczajacy','ubezpieczony') )
+);
+
+PROMPT Tworzenie tabeli Kontrahenci...
 create table kontrahenci(
  nr_polisy number
 ,id_osoby number
-,rola varchar2(50) not null
+,rola number not null
 ,constraint kontrahenci_pk PRIMARY KEY (nr_polisy,id_osoby,rola)
 ,constraint polisy_kontrah_fk FOREIGN KEY (nr_polisy) REFERENCES polisy (nr_polisy) ON DELETE CASCADE
+,constraint rola_kontrah_fk FOREIGN KEY (rola) REFERENCES rola(id) ON DELETE CASCADE
 ,constraint osoby_kontrah_fk FOREIGN KEY (id_osoby) REFERENCES osoby (id_osoby) ON DELETE CASCADE
-,constraint rola_chk CHECK (rola IN ('ubezpieczajacy','ubezpieczony') )
 );
 
 PROMPT Tworzenie tabeli info_log...
@@ -80,3 +89,4 @@ create table info_log (
 ,"NETWORK_PROTOCOL" varchar2(100) not null
 ,constraint info_log_pk primary key ("ID")
 );
+
