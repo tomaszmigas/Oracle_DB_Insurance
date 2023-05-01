@@ -40,6 +40,15 @@ Relacje:
 Baza posiada możliwość indywidualnego oraz hurtowego (w celu szybkiego uzyskania dużej bazy danych) dodawania zdarzeń.
 
 ========================================================================================================
+INSTALACJA
+========================================================================================================
+Głównym plikiem instalacyjnym jest plik 00_create_db.sql, który z kolei uruchamia pozostałe pliki.
+W pliku tym w sekcji "ustawienia bazy" należy ustawić własne parametry.
+Instalacja bazy danych odbywa się poprzez uruchomienie w bazie danych skryptu z pliku 00_create.sql
+Deinstalacja bazy danych odbywa się poprzez usunięcie użytkownika z bazy danych (tak, wiem - słabe).
+
+
+========================================================================================================
 OPERACJE HURTOWE
 ========================================================================================================
 
@@ -50,7 +59,8 @@ https://dane.gov.pl/pl/dataset/1501
 Dane źródłowe są posortowane od najczęściej do najrzadziej występujących.
 
 Najpierw tworzone są tabele zewnętrzne (external tables) aby uzyskać dostęp do danych z plików *.csv 
-następnie na ich podstawie tworzone są właściwe tabele ograniczone do 2000 wierszy z najczęściej występującymi imionami i nazwiskami
+Na ich podstawie tworzone są właściwe tabele ograniczone do 2000 wierszy z najczęściej występującymi imionami i nazwiskami
+Tabele zewnętrzne są następnie usuwane z bazy.
 
 Tabele
 - imiona_meskie

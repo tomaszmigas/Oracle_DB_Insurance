@@ -1,6 +1,4 @@
-SET FLUSH ON
-SET VERIFY OFF
-
+------ ustawienia bazy start ---------------
 define v_host = localhost
 define v_port = 1521
 define v_database = xepdb3
@@ -11,7 +9,10 @@ define v_password = ins4
 define ilosc_agentow_hurt = 4
 define ilosc_polis_hurt = 5
 
---connect &&v_user/&&v_password@localhost:1521/xepdb3
+------ ustawienia bazy koniec ---------------
+
+SET FLUSH ON
+SET VERIFY OFF
 
 -- tworzenie uzytkownika &&v_user
 PROMPT laczenie jako system...
