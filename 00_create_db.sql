@@ -13,6 +13,8 @@ define ilosc_polis_hurt = 5
 
 SET FLUSH ON
 SET VERIFY OFF
+--HOST chcp 852
+--exit
 
 -- tworzenie uzytkownika &&v_user
 PROMPT laczenie jako system...
@@ -38,6 +40,9 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 
 -- tworzenie pakietu osoby_pkg
 @"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_package_persons.sql"
+
+-- tworzenie pakietu generatory_pkg
+@"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_package_generators.sql"
 
 -- do każdej hurtowo wprowadzanej polisy generowana jest losowa ilosc powiazanych z nia osob:
 -- jako 1 jako ubezpieczajacy + 1-4 jako ubezpieczony

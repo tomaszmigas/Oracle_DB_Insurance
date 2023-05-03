@@ -16,11 +16,11 @@ insert into osoby (imie,nazwisko,pesel) values ('Adam', 'Baran',	'80012801002');
 insert into osoby (imie,nazwisko,pesel) values ('Piotr', 'Kulik',	'72112801003');
 insert into osoby (imie,nazwisko,pesel) values ('Zofia', 'Kulik',	'75102101010');
 insert into osoby (imie,nazwisko,pesel) values ('Paulina', 'Kulik',	'96017801208');
-insert into osoby (imie,nazwisko,pesel) values ('Bart≈Çomiej', 'Kulik',	'98082801103');
+insert into osoby (imie,nazwisko,pesel) values ('Bartàomiej', 'Kulik',	'98082801103');
 
-insert into osoby (imie,nazwisko,pesel) values ('Anna', 'Hetma≈Ñska','95041301004');
-insert into osoby (imie,nazwisko,pesel) values ('Aneta', 'Stƒôpna','00051801005');
-insert into osoby (imie,nazwisko,pesel) values ('Maria', '≈ªelazna-Wilk','85112001006');
+insert into osoby (imie,nazwisko,pesel) values ('Anna', 'Hetma‰ska','95041301004');
+insert into osoby (imie,nazwisko,pesel) values ('Aneta', 'St©pna','00051801005');
+insert into osoby (imie,nazwisko,pesel) values ('Maria', 'Ωelazna-Wilk','85112001006');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Parnik','75081701007');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Karczewnik','97022101004');
 /

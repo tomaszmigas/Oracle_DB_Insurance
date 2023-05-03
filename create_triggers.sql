@@ -1,4 +1,4 @@
-PROMPT Tworzenie triggera 1...
+PROMPT Tworzenie triggera Schema Logon Check...
 
 create or replace trigger trig_schema_logon_check
 AFTER LOGON ON INS4.SCHEMA
@@ -16,7 +16,7 @@ BEGIN
     from dual;
 END trig_schema_logon_check;
 /
-PROMPT Tworzenie triggera 2...
+PROMPT Tworzenie triggera Schema Logoff Check...
 create or replace trigger trig_schema_logoff_check
 BEFORE LOGOFF ON INS4.SCHEMA
 BEGIN

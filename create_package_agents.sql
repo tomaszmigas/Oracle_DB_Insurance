@@ -64,5 +64,5 @@ create or replace package body agenci_pkg is
 
 
 end agenci_pkg;
-/
 commit;
+/
