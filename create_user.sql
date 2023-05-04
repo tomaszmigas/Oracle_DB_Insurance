@@ -18,11 +18,11 @@ PROMPT Tworzenie uzytkownika &&v_user...
 	create user &&v_user identified by &&v_password;
 	alter user &&v_user quota 100M on USERS;
 
+PROMPT Tworzenie directory ins_external_table...
+CREATE OR REPLACE DIRECTORY ins_external_table AS '&&v_directory';
+
 PROMPT Nadawanie uprawnien...
 grant connect, resource to &&v_user;
-grant read, write on directory dir_ins to &&v_user;
 grant read, write on directory ins_external_table to &&v_user;
-grant create any trigger to &&v_user;
-grant create any directory to &&v_user;
-
+grant create trigger to &&v_user;
 PROMPT User &&v_user gotowy

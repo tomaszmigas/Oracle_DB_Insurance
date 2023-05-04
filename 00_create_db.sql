@@ -3,9 +3,10 @@ define v_host = localhost
 define v_port = 1521
 define v_database = xepdb3
 define v_sys_user = system
-define v_sys_user_password = sys1
+define v_sys_user_password
 define v_user = ins
 define v_password = ins
+define v_directory = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\external_tables\
 define ilosc_agentow_hurt = 4
 define ilosc_polis_hurt = 5
 
