@@ -1,7 +1,7 @@
 PROMPT Wypelnianie bazy danych danymi...
 SET FEEDBACK OFF
 PROMPT Wypelnianie tabeli Rola(2)...
-insert into rola(nazwa) values ('ubezpieczajacy');
+insert into rola(nazwa) values ('ubezpieczaj¥cy');
 insert into rola(nazwa) values ('ubezpieczony')	;
 commit;
 PROMPT Gotowe
@@ -9,6 +9,7 @@ PROMPT Gotowe
 PROMPT Wypelnianie tabeli Agenci(&&ilosc_agentow_hurt)...
 exec agenci_pkg.dodaj_agentow_hurt(p_nazwa_agenta=>'Agent',p_ilosc=>&&ilosc_agentow_hurt,p_autonum=>TRUE);
 /
+commit;
 PROMPT Gotowe
 
 PROMPT Wypelnianie tabeli Osoby(10)...
@@ -23,20 +24,73 @@ insert into osoby (imie,nazwisko,pesel) values ('Aneta', 'St©pna','00051801005')
 insert into osoby (imie,nazwisko,pesel) values ('Maria', '½elazna-Wilk','85112001006');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Parnik','75081701007');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Karczewnik','97022101004');
+insert into osoby (imie,nazwisko,pesel) values ('Anna', 'Karczewnik','98022101004');
+commit;
 /
 PROMPT Gotowe
 
 PROMPT Wypelnianie tabeli Polisy(3)...
-exec polisy_pkg.wprowadz_polise(1,DATE '2023-01-01',DATE '2023-12-31' ,500,50000);
-exec polisy_pkg.wprowadz_polise(1,DATE '2023-02-19',DATE '2024-02-18' ,300,30000);
-exec polisy_pkg.wprowadz_polise(1,DATE '2022-03-20',DATE '2023-03-19' ,700,70000);
+exec polisy_pkg.dodaj_polise(1,DATE '2023-01-01',DATE '2023-12-31' ,50000);
+exec polisy_pkg.dodaj_polise(2,DATE '2023-02-19',DATE '2024-02-18' ,30000);
+exec polisy_pkg.dodaj_polise(3,DATE '2022-03-20',DATE '2023-03-19' ,70000);
 /
+--commit;
 PROMPT Gotowe
 
-PROMPT Wypelnianie tabeli Kontrahenci(2)...
+PROMPT Wypelnianie tabeli Kontrahenci(10)...
+-- nr polisy, id_osoby,rola
 insert into kontrahenci values (1,2,1);
 insert into kontrahenci values (1,2,2);
+
+insert into kontrahenci values (2,10,1);
+insert into kontrahenci values (2,10,2);
+insert into kontrahenci values (2,11,2);
+
+insert into kontrahenci values (3,3,1);
+insert into kontrahenci values (3,3,2);
+insert into kontrahenci values (3,4,2);
+insert into kontrahenci values (3,5,2);
+insert into kontrahenci values (3,6,2);
+
 commit;
 /
+
+PROMPT Wypelnianie tabeli Szkody_Status(4)...
+
+insert into szkody_status values (1,'zgˆoszona');
+insert into szkody_status values (2,'rozpatrywana');
+insert into szkody_status values (3,'odrzucona');
+insert into szkody_status values (4,'wypˆacona');
+commit;
+/
+
+PROMPT Wypelnianie tabeli Szkody(10)...
+declare
+	ex1 exception;
+	pragma exception_init(ex1,-205998);
+begin
+--	1-zgloszona	2-rozpatrywana 3-odrzucona 4-wypˆacona
+	insert into szkody values (1,DATE'2023-03-12',DATE'2023-03-15',1,0);
+	insert into szkody values (1,DATE'2023-04-16',DATE'2023-04-20',4,12000);
+	insert into szkody values (1,DATE'2023-06-17',DATE'2023-07-05',4,37000);
+	insert into szkody values (1,DATE'2023-08-17',DATE'2024-01-05',4,5000);
+
+	insert into szkody values (2,DATE'2023-06-12',DATE'2023-06-20',1,0);
+	insert into szkody values (2,DATE'2023-02-21',DATE'2023-02-21',3,0);
+
+	insert into szkody values (3,DATE'2023-03-15',DATE'2023-03-16',4,80000);
+	insert into szkody values (3,DATE'2023-02-21',DATE'2023-04-21',2,0);
+	insert into szkody values (3,DATE'2023-01-17',DATE'2023-02-16',4,20000);
+	insert into szkody values (3,DATE'2023-04-28',DATE'2023-04-29',3,0);
+commit;
+exception
+	when others then
+		dbms_output.put_line( 'Wyj¥tek ' || sqlcode ||  ' --> ' || sqlerrm);
+	
+end;
+
+/
+/*
+*/
 PROMPT Gotowe
 SET FEEDBACK On
