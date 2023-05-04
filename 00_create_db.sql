@@ -4,8 +4,8 @@ define v_port = 1521
 define v_database = xepdb3
 define v_sys_user = system
 define v_sys_user_password = sys1
-define v_user = ins4
-define v_password = ins4
+define v_user = ins
+define v_password = ins
 define ilosc_agentow_hurt = 4
 define ilosc_polis_hurt = 5
 
