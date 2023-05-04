@@ -9,8 +9,7 @@ PROMPT Tworzenie pakietu Agenci (body)..
 create or replace package body agenci_pkg is
 
 --------------------------------------------------------------------    
- 
-    procedure ustaw_seq(p_max_agent OUT number) IS
+     procedure ustaw_seq(p_max_agent OUT number) IS
     BEGIN
         select max(nr_agenta) into p_max_agent from agenci;  -- p_max_agent = max nr wiersza w tabeli agenci
                           
@@ -27,6 +26,8 @@ create or replace package body agenci_pkg is
     END;
 --------------------------------------------------------------------
 
+
+--------------------------------------------------------------------
 -- przy imporcie calego schematu tworzone sa od nowa obiekty w tym sekwencje, tabele moga juz zawierac dane
 -- trzeba dopasowac wartosc startowa sekwencji do ilosci wierszy
     
@@ -56,13 +57,16 @@ create or replace package body agenci_pkg is
             rollback;
     commit;
     end dodaj_agentow_hurt;
+--------------------------------------------------------------------
 
+--------------------------------------------------------------------
     procedure dodaj_agenta(p_nazwa_agenta varchar2,p_autonum BOOLEAN:=FALSE) IS
     BEGIN
         dodaj_agentow_hurt(p_nazwa_agenta,1,p_autonum); --dodaj 1 agenta
     END;
-
+--------------------------------------------------------------------
 
 end agenci_pkg;
+/
 commit;
 /
