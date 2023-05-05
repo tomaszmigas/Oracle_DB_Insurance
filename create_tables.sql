@@ -45,9 +45,9 @@ create table rola(
 
 PROMPT Tworzenie tabeli Kontrahenci...
 create table kontrahenci(
- nr_polisy number
-,id_osoby number
-,id_roli number not null
+ nr_polisy	number	not NULL
+,id_osoby	number	not null
+,id_roli	number 	not null
 ,constraint polisy_kontrah_fk FOREIGN KEY (nr_polisy) REFERENCES polisy (nr_polisy) ON DELETE CASCADE
 ,constraint rola_kontrah_fk FOREIGN KEY (id_roli) REFERENCES rola(id_roli) ON DELETE CASCADE
 ,constraint osoby_kontrah_fk FOREIGN KEY (id_osoby) REFERENCES osoby (id_osoby) ON DELETE CASCADE
