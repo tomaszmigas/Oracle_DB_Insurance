@@ -3,17 +3,19 @@ define v_host = localhost
 define v_port = 1521
 define v_database = xepdb3
 define v_sys_user = system
-define v_sys_user_password
+define v_sys_user_password = sys1
 define v_user = ins
 define v_password = ins
+define v_tablespace = USERS
 define v_directory = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\external_tables\
-define ilosc_agentow_hurt = 4
+define ilosc_agentow_hurt = 10
 define ilosc_polis_hurt = 5
 
 ------ ustawienia bazy koniec ---------------
 
 SET FLUSH ON
 SET VERIFY OFF
+SET FEEDBACK OFF
 --HOST chcp 852
 --exit
 
@@ -45,15 +47,20 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 -- tworzenie pakietu generatory_pkg
 @"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_package_generators.sql"
 
+-- tworzenie widoków
+@"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_views.sql"
+
+-- tworzenie widoków zmaterializowanych
+@"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_materialized_views.sql"
+
 -- do każdej hurtowo wprowadzanej polisy generowana jest losowa ilosc powiazanych z nia osob:
 -- jako 1 jako ubezpieczajacy + 1-4 jako ubezpieczony
 
 -- wypełnianie tabel danymi
 @"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\populate_db.sql"
 
+-- tworzenie job
+@"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_jobs.sql"
+
+SET FEEDBACK ON
 PROMPT Instalacja zakonczona.
-
-
-
-
-

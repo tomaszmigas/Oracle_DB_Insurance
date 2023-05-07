@@ -81,7 +81,7 @@ where nazwa NOT IN ('wypˆacona','odrzucona')
 AND (current_date - data_zgloszenia) >7
 ;
 
-CREATE VIEW V_WSKAZNIKI_SZKODLIWOSCI AS
+CREATE VIEW V_WSKAZNIKI_SZKODOWOSCI AS
 WITH
      p1 AS (select count(distinct nr_polisy) ilosc from szkody)
     ,p2 AS (select count(distinct nr_polisy) ilosc from polisy)
@@ -91,6 +91,3 @@ SELECT
  round((p1.ilosc/p2.ilosc)*100,2)|| '%' "% POLIS ZE SZKODAMI"
 ,round((w1.suma/w2.suma)*100,2) || '%' " KWOTA ODSZK/UBEZP"
 FROM p1,p2,w1,w2;
-
-
-

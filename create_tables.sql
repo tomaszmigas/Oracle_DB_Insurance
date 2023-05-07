@@ -90,8 +90,6 @@ partition by range (data_zajscia)
 ,partition reszta values less than (maxvalue)
 );
 
-
-
 PROMPT Tworzenie tabeli info_log...
 create table info_log (
  "ID"               number generated always as identity
@@ -106,3 +104,10 @@ create table info_log (
 ,constraint info_log_pk primary key ("ID")
 );
 
+
+create table stat_info (
+ statystyki varchar2(50)
+,wiersze_polisy number
+,wiersze_kontrahenci number
+,wiersze_szkody number
+);
