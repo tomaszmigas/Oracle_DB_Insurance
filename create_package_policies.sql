@@ -18,6 +18,7 @@ create or replace package body polisy_pkg is
         else
             dbms_output.put_line('Polisa nie zostala utworzona');
         end if;
+		commit;
     exception
         when others then
             dbms_output.put_line('Wprowadz polise - exception Others');
