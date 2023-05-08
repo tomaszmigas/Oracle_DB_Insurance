@@ -63,5 +63,7 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 -- tworzenie job
 @"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_jobs.sql"
 
+--zebranie statystyk na starcie
+@"c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\create_stats.sql"
 SET FEEDBACK ON
 PROMPT Instalacja zakonczona.

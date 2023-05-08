@@ -19,11 +19,14 @@ PROMPT Tworzenie uzytkownika &&v_user...
 	alter user &&v_user quota 100M on &&v_tablespace;
 
 PROMPT Tworzenie directory ins_external_table...
-CREATE OR REPLACE DIRECTORY ins_external_table AS '&&v_directory';
+CREATE OR REPLACE DIRECTORY ins_external_table AS '&&v_directory_ext';
+CREATE OR REPLACE DIRECTORY ins_datapump AS '&&v_directory_dp';
 
 PROMPT Nadawanie uprawnien...
 grant connect, resource to &&v_user;
 grant read, write on directory ins_external_table to &&v_user;
+grant read, write on directory ins_datapump to &&v_user;
+
 grant create view to &&v_user;
 grant create materialized view to &&v_user;
 grant create trigger to &&v_user;
