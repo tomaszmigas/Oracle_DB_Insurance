@@ -52,4 +52,6 @@ Kod widoku Agenci_Wskazniki
 Kod widoku V_Wskazniki_Szkodowosci
 ![widok_wsk_szkod](https://user-images.githubusercontent.com/77076749/236795793-580efbc4-75bf-4950-8684-cbb2a6f6256b.JPG)
 
+Kod procedury Dodaj_Agentow_Hurt
+![procedura_dodaj_agentow_hurt](https://user-images.githubusercontent.com/77076749/236802467-da0c0cb2-6345-4541-bb30-9304796c971a.JPG)
 
