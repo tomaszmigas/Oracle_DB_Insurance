@@ -39,7 +39,8 @@ exec polisy_pkg.dodaj_polise(6,DATE '2023-04-11',DATE '2024-04-10' , 5000);
 exec polisy_pkg.dodaj_polise(5,DATE '2023-03-20',DATE '2024-03-19' , 4000);
 exec polisy_pkg.dodaj_polise(5,DATE '2022-03-20',DATE '2023-03-19' , 3000);
 exec polisy_pkg.dodaj_polise(2,DATE '2023-03-22',DATE '2024-03-21' , 25000);
-exec polisy_pkg.dodaj_polise(2,DATE '2022-05-09',DATE '2023-05-08' , 17000);
+--exec polisy_pkg.dodaj_polise(2,DATE '2022-05-14',DATE '2023-05-14' , 17000);
+exec polisy_pkg.dodaj_polise(2,(sysdate-357),sysdate+7, 17000);
 --end;
 /
 --commit;
