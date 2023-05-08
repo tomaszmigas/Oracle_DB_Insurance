@@ -7,7 +7,8 @@ define v_sys_user_password = sys1
 define v_user = ins
 define v_password = ins
 define v_tablespace = USERS
-define v_directory = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\external_tables\
+define v_directory_ext = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\external_tables\
+define v_directory_dp = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\datapump\
 define ilosc_agentow_hurt = 10
 define ilosc_polis_hurt = 5
 

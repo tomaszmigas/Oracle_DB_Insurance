@@ -1,0 +1,4 @@
+DIRECTORY = ins_datapump
+DUMPFILE = package.dmp
+LOGFILE = package.log
+REMAP_SCHEMA='INS:INS4'
