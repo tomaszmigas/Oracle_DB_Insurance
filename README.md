@@ -43,10 +43,10 @@ Przykładowe screeny z DB:
 Schemat Bazy Danych
 ![schemat_bd](https://user-images.githubusercontent.com/77076749/236805649-52ddc578-22e8-497c-8439-ce9c931810b9.png)
 
-Istalacja ze skryptu
+Instalacja ze skryptu
 ![instalacja_sqlplus](https://user-images.githubusercontent.com/77076749/236795133-25262ae5-2e23-44fb-b363-30a90b5161f3.JPG)
 
-Istalacja poprzez DataPump
+Instalacja poprzez DataPump
 ![instalacja_imdp](https://user-images.githubusercontent.com/77076749/236795240-3b529a12-a91e-4b1c-9779-a5d9a2a79cf5.JPG)
 
 Kod widoku Agenci_Wskazniki
