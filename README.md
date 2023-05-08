@@ -37,3 +37,19 @@ Instalacja bazy danych może odbyć się na 2 sposoby:
 
 
 Ustawienia językowe bazy danych to EE8PC852
+
+Przykładowe screeny z DB:
+
+Istalacja ze skryptu
+![instalacja_sqlplus](https://user-images.githubusercontent.com/77076749/236795133-25262ae5-2e23-44fb-b363-30a90b5161f3.JPG)
+
+Istalacja poprzez DataPump
+![instalacja_imdp](https://user-images.githubusercontent.com/77076749/236795240-3b529a12-a91e-4b1c-9779-a5d9a2a79cf5.JPG)
+
+Kod widoku Agenci_Wskazniki
+![widok_agenci_wsk](https://user-images.githubusercontent.com/77076749/236795768-8b55aca5-d90a-44a6-9546-31d3426c2ca0.JPG)
+
+Kod widoku V_Wskazniki_Szkodowosci
+![widok_wsk_szkod](https://user-images.githubusercontent.com/77076749/236795793-580efbc4-75bf-4950-8684-cbb2a6f6256b.JPG)
+
+
