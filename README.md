@@ -40,6 +40,9 @@ Ustawienia językowe bazy danych to EE8PC852
 
 Przykładowe screeny z DB:
 
+Schemat Bazy Danych
+![schemat_bd](https://user-images.githubusercontent.com/77076749/236805649-52ddc578-22e8-497c-8439-ce9c931810b9.png)
+
 Istalacja ze skryptu
 ![instalacja_sqlplus](https://user-images.githubusercontent.com/77076749/236795133-25262ae5-2e23-44fb-b363-30a90b5161f3.JPG)
 
