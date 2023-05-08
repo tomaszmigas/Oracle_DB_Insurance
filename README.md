@@ -20,7 +20,8 @@ oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
 
 Baza 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
 
-Baza posiada możliwość indywidualnego oraz hurtowego (w celu szybkiego uzyskania dużej ilości danych) dodawania zdarzeń. - hurt do zrobienia
+Baza posiada możliwość indywidualnego oraz hurtowego dodawania danych (w celu uzyskania szybkiego przyrostu informacji w bazie) 
+(funkcjonalność w trakcie tworzenia, na chwilę obecną można hurtowo dodać agentów)
 
 Więcej informacji znajduje się w pliku Opis.docx
 
@@ -28,9 +29,11 @@ Więcej informacji znajduje się w pliku Opis.docx
 
 2. INSTALACJA
 
-Głównym plikiem instalacyjnym jest plik 00_create_db.sql, który z kolei uruchamia pozostałe pliki.
-W pliku tym w sekcji "ustawienia bazy" należy ustawić własne parametry.
-Instalacja bazy danych odbywa się poprzez uruchomienie w bazie danych skryptu z pliku 00_create.sql
-Instalacja na samym początku sprawdza czy istnieje już dany schemat użytkownika w wybranej lokalizacji (pdb) 
-i jeśli tak usuwa go a następnie tworzy od nowa.
+Instalacja bazy danych może odbyć się na 2 sposoby:
+- poprzez uruchomienie w bazie danych skryptu z pliku 00_create.sql (należy ustawić w nim swoje parametry w sekcji USTAWIENIA BAZY, z tego pliku uruchamiane są kolejne skrypty) Instalacja na samym początku sprawdza czy istnieje podany schemat użytkownika w wybranej lokalizacji i jeśli tak to go usuwa po czym tworzy od nowa użytkownika i wszystkie potrzebne składniki.
+
+- poprzez import pliku insurance_schema.dmp wygenerowanego przez expdp, zawierającego ostatnią wersję schematu INS z bazą danych ( w tym wypadku należy mieć już utworzony schemat użytkownika  z nadanymi odpowiednimi uprawnieniami)
+ 
+
+
 Ustawienia językowe bazy danych to EE8PC852
