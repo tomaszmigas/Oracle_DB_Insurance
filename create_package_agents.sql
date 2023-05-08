@@ -50,12 +50,13 @@ create or replace package body agenci_pkg is
         ELSE 
             dbms_output.put_line('Utworzono ' || p_ilosc || ' agentow');
         END IF;
+		commit;
     exception
         when others then
             dbms_output.put_line('Agenci_pkg.Dodaj_agentow - wyjatek Others');
             dbms_output.put_line('SQLCode: ' || sqlcode || '   SQL Errm: ' || sqlerrm);
             rollback;
-    commit;
+    
     end dodaj_agentow_hurt;
 --------------------------------------------------------------------
 
