@@ -26,7 +26,6 @@ Baza posiada możliwość indywidualnego oraz hurtowego dodawania danych (w celu
 Więcej informacji znajduje się w pliku Opis.docx
 
 
-
 2. INSTALACJA
 
 Instalacja bazy danych może odbyć się na 2 sposoby:
@@ -35,8 +34,11 @@ Instalacja bazy danych może odbyć się na 2 sposoby:
 - poprzez import pliku insurance_schema.dmp wygenerowanego przez expdp, zawierającego ostatnią wersję schematu INS z bazą danych ( w tym wypadku należy mieć już utworzony schemat użytkownika  z nadanymi odpowiednimi uprawnieniami)
  
 
-
 Ustawienia językowe bazy danych to EE8PC852
+
+
+Algorytm hurtowego dodawania polis: http://cacoo.com/diagrams/T1GwSGJwDbSqB0LG-E025A.png
+
 
 Przykładowe screeny z DB:
 
