@@ -2,6 +2,7 @@ PROMPT Tworzenie pakietu Agenci (spec)..
 create or replace package agenci_pkg is
     procedure dodaj_agentow_hurt(p_nazwa_agenta varchar2 default 'Agent',p_ilosc number:=1,p_autonum BOOLEAN:=TRUE);
     procedure dodaj_agenta(p_nazwa_agenta varchar2,p_autonum BOOLEAN:=FALSE);
+    function wylosuj_agenta return  number;
 end;
 /
 
@@ -67,7 +68,19 @@ create or replace package body agenci_pkg is
     END;
 --------------------------------------------------------------------
 
+--------------------------------------------------------------------
+function wylosuj_agenta return  number IS
+        v_nr_agenta number;
+        v_max       number;
+        v_pozycja   number; 
+    BEGIN
+    
+        select count(*) into v_max from agenci;
+        v_pozycja:=trunc(dbms_random.value(1,v_max));
+        select nr_agenta into v_nr_agenta from agenci offset v_pozycja rows fetch first 1 rows only;
+        return v_nr_agenta;
+    END wylosuj_agenta;
+--------------------------------------------------------------------
 end agenci_pkg;
 /
 commit;
-/
