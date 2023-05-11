@@ -132,7 +132,7 @@ function generuj_dane_osobowe(p_pesel VARCHAR2) return wiersz AS
   function generuj_sume_ubezp(p_suma_min number, p_suma_max number) return number AS
     v_suma number:=0;
   BEGIN
-    v_suma:= trunc(dbms_random.value(p_suma_min,p_suma_max));
+    v_suma:= trunc(dbms_random.value(p_suma_min,p_suma_max),-2);
     RETURN v_suma;
   END generuj_sume_ubezp;
 -----------------------------------------

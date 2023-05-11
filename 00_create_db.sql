@@ -42,14 +42,15 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 -- tworzenie pakietu agenci_pkg
 @"&&v_install_directory.\create_package_agents.sql"
 
+-- tworzenie pakietu generatory_pkg
+@"&&v_install_directory.\create_package_generators.sql"
+
 -- tworzenie pakietu polisy_pkg
 @"&&v_install_directory.\create_package_policies.sql"
 
 -- tworzenie pakietu osoby_pkg
 @"&&v_install_directory.\create_package_persons.sql"
 
--- tworzenie pakietu generatory_pkg
-@"&&v_install_directory.\create_package_generators.sql"
 
 -- tworzenie widoków
 @"&&v_install_directory.\create_views.sql"

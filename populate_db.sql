@@ -28,7 +28,6 @@ commit;
 
 PROMPT Wypelnianie tabeli Polisy(11)...
 --p_nr_agenta, p_data_od date,  p_data_do date, p_suma_ubezpieczenia
---begin
 exec polisy_pkg.dodaj_polise(1,DATE '2023-01-01',DATE '2023-12-31' ,50000);
 exec polisy_pkg.dodaj_polise(2,DATE '2023-02-19',DATE '2024-02-18' ,30000);
 exec polisy_pkg.dodaj_polise(3,DATE '2022-03-20',DATE '2023-03-19' ,70000);
@@ -39,11 +38,9 @@ exec polisy_pkg.dodaj_polise(6,DATE '2023-04-11',DATE '2024-04-10' , 5000);
 exec polisy_pkg.dodaj_polise(5,DATE '2023-03-20',DATE '2024-03-19' , 4000);
 exec polisy_pkg.dodaj_polise(5,DATE '2022-03-20',DATE '2023-03-19' , 3000);
 exec polisy_pkg.dodaj_polise(2,DATE '2023-03-22',DATE '2024-03-21' , 25000);
---exec polisy_pkg.dodaj_polise(2,DATE '2022-05-14',DATE '2023-05-14' , 17000);
 exec polisy_pkg.dodaj_polise(2,(sysdate-357),sysdate+7, 17000);
---end;
 /
---commit;
+commit;
 
 PROMPT Wypelnianie tabeli Kontrahenci(24)...
 -- nr polisy, id_osoby,rola(1-ubezpieczaj¥cy 2-ubezpieczony
