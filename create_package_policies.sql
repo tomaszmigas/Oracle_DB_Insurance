@@ -1,7 +1,7 @@
 PROMPT Tworzenie pakietu Polisy(spec)...
 create or replace package polisy_pkg is
     procedure dodaj_polise (p_nr_agenta number, p_data_od date, p_data_do date, p_suma_ubezpieczenia number);
-    --procedure dodaj_polise_hurt (p_ilosc_polis number, p_data_od date, p_data_do date, p_max_suma_ubezp number,p_ilosc_osob number);
+    procedure dodaj_polise_hurt (p_ilosc_polis number, p_data_od date, p_data_do date, p_suma_min number,p_suma_max number,p_ilosc_osob number);
 end;
 /
 
@@ -26,41 +26,51 @@ create or replace package body polisy_pkg is
             dbms_output.put_line('sqlerrm: ' || sqlerrm);
     end dodaj_polise;
 ----------------------------------------------
-/*
+
 ----------------------------------------------
- procedure dodaj_polise_hurt (p_ilosc_polis number, p_data_od date, p_data_do date, p_max_suma_ubezp number, p_ilosc_osob number) IS
-        TYPE tabela IS TABLE OF generatory_pkg.wiersz index by pls_integer;
-        tab1 tabela:=tabela();
-    BEGIN  
-
-    --polisy beda wpisywane do kolekcji polisy_tab
-    --osoby beda wpisywane do kolekji osoby_tab
-    --do kolekcji kontrahenci_tab beda wpisywane odpowiednie dane 
+procedure dodaj_polise_hurt (p_ilosc_polis number, p_data_od date, p_data_do date, p_suma_min number, p_suma_max number,p_ilosc_osob number) IS
+    TYPE polisy_tab IS TABLE OF polisy%rowtype;
+    TYPE osoby_tab IS TABLE OF osoby%rowtype;
+    TYPE kontrahenci_tab IS TABLE OF kontrahenci%rowtype;
+    v_polisy polisy_tab:=polisy_tab();                  --kolekcja NT polis
+    v_osoby osoby_tab:=osoby_tab();                     --kolekcja NT osob
+    v_kontrahenci kontrahenci_tab:=kontrahenci_tab();   --kolekcja NT kontrahentow
+    v_nr_agenta number;
+    v_data_polisy_start date;
+    v_data_polisy_koniec date;
+    v_suma_ubezp number;
+    v_skladka number;
+BEGIN
+for i IN 1..p_ilosc_polis LOOP      --wykonaj dla kazdej generowanej polisy
+                                    --wypelnienie kolekcji polisy
+    v_polisy.extend;
+    v_polisy(v_polisy.last).nr_agenta:=agenci_pkg.wylosuj_agenta;   
+    v_polisy(v_polisy.last).data_od:=generatory_pkg.generuj_date(p_data_od,p_data_do);
+    v_polisy(v_polisy.last).data_do:=v_polisy(v_polisy.last).data_od + INTERVAL '364' DAY;
+    v_polisy(v_polisy.last).suma_ubezpieczenia:=generatory_pkg.generuj_sume_ubezp(p_suma_min,p_suma_max);
+    v_polisy(v_polisy.last).skladka:=v_polisy(v_polisy.last).suma_ubezpieczenia*0.05;
     
-
---      tab1:=wygeneneruj dane_polis(p_ilosc_polis,p_data_od,p_data_do,p_max_suma_ubezp);
-            -- wylosuj agenta sposrod dostepnych
-            -- wygeneruj date startowa z podanego zakresu dat
-            -- wylosuj sume ubezp
-
---      wygeneruj_polisy uzywajac gotowej procedury dodaj_polise  i kolekcji tab1;
-        
---losowe ilosci osob 1-max
---        wygeneruj_osoby_do_polis(p_ilosc_osob)
---            wygeneruj pesel
---            wygeneruj_imie oraz nazwizko ubezpieczajacego
---            wylosuj liczbe osob na polisie
-    --            jezeli liczba osob >1 to wygeneruj i dodaj do polisy (poprzez kontrahenci) osoby o tym samym nazwisku 
+   
     
-    -- przepisz dane z kolekcji do odpwoiednich tabel
+--    dbms_output.put_line('nr agenta: ' || v_nr_agenta);
+--    dbms_output.put_line('data_s: ' || v_data_polisy_start);
+--    dbms_output.put_line('data_k: ' || v_data_polisy_koniec);    
+--    dbms_output.put_line('suma_ubezp: ' || v_suma_ubezp);
     
-    for i IN 1..p_ilosc_polis LOOP  --dla kazdej generowanej polisy - chyba nie bede uzywal
-            null;
     END LOOP;
     
-    END  dodaj_polise_hurt;
+    for i in v_polisy.first..v_polisy.last loop
+     dbms_output.put_line('i = ' || i || '  nr_agenta: ' || v_polisy(i).nr_agenta 
+     || '   data_od: ' || v_polisy(i).data_od  || '   data_do: ' || v_polisy(i).data_do  
+     || '   skladka: ' || v_polisy(i).skladka  || '   suma_ubezp: ' || v_polisy(i).suma_ubezpieczenia
+     
+     );
+        end loop;
+
+END  dodaj_polise_hurt;
+
 ----------------------------------------------
-*/
-end;
+
+end polisy_pkg;
 /
 
