@@ -1,12 +1,12 @@
 PROMPT Wypelnianie bazy danych...
 SET FEEDBACK OFF
 PROMPT Wypelnianie tabeli Rola(2)...
-insert into rola(nazwa) values ('ubezpieczaj¥cy');
+insert into rola(nazwa) values ('ubezpieczaj¹cy');
 insert into rola(nazwa) values ('ubezpieczony')	;
 commit;
 
 PROMPT Wypelnianie tabeli Agenci(&&ilosc_agentow_hurt)...
-exec agenci_pkg.dodaj_agentow_hurt(p_nazwa_agenta=>'Agent',p_ilosc=>&&ilosc_agentow_hurt,p_autonum=>TRUE);
+exec agenci_pkg.dodaj_agenta_hurt(p_ilosc=>&&ilosc_agentow_hurt, p_nazwa_agenta=>'Agent',p_autonum=>TRUE);
 /
 commit;
 
@@ -15,11 +15,11 @@ insert into osoby (imie,nazwisko,pesel) values ('Adam', 'Baran',	'80012801002');
 insert into osoby (imie,nazwisko,pesel) values ('Piotr', 'Kulik',	'72112801003');
 insert into osoby (imie,nazwisko,pesel) values ('Zofia', 'Kulik',	'75102101010');
 insert into osoby (imie,nazwisko,pesel) values ('Paulina', 'Kulik',	'96017801208');
-insert into osoby (imie,nazwisko,pesel) values ('Bartˆomiej', 'Kulik',	'98082801103');
+insert into osoby (imie,nazwisko,pesel) values ('Bartˆ³omiej', 'Kulik',	'98082801103');
 
 insert into osoby (imie,nazwisko,pesel) values ('Anna', 'Hetmaäska','95041301004');
-insert into osoby (imie,nazwisko,pesel) values ('Aneta', 'St©pna','00051801005');
-insert into osoby (imie,nazwisko,pesel) values ('Maria', '½elazna-Wilk','85112001006');
+insert into osoby (imie,nazwisko,pesel) values ('Aneta', 'Stêpna','00051801005');
+insert into osoby (imie,nazwisko,pesel) values ('Maria', '¯elazna-Wilk','85112001006');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Parnik','75081701007');
 insert into osoby (imie,nazwisko,pesel) values ('Kamil', 'Karczewnik','97022101004');
 insert into osoby (imie,nazwisko,pesel) values ('Anna', 'Karczewnik','98022101004');

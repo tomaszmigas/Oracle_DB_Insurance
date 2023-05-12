@@ -1,7 +1,7 @@
 1. ZAŁOŻENIA 
 
 Projekt został wykonany w środowisku Oracle Express Edition 21c
-Tematem jest baza danych, która symuluje (w dużym uproszczeniu) działanie towarzystwa ubezpieczeniowego.
+Tematem jest baza danych, która symuluje (w uproszczeniu) działanie towarzystwa ubezpieczeniowego.
 Możliwe jest dodawanie, usuwanie oraz modyfikacja polis, agentów oraz osób wraz z powiązanymi danymi z innych tabel.
 
 Każda polisa jest powiązana z 1 agentem.
@@ -10,7 +10,7 @@ Do każdej polisy są przypisane osoby: jedna jako ubezpieczający oraz jedna lu
 Z każdej polisy można zgłosić jedną lub wiele szkód.
 Szkoda ma 4 możliwe statusy: zgłoszona (1), rozpatrywana (2), odrzucona (3), wypłacona (4).
 Tylko dla statusu 4 kwota wypłaty może być większa od 0	- do zrobienia
-Szkoda powinna być rozpatrzona w czasie 14 dni od zgłoszenia
+Szkoda powinna być rozpatrzona w czasie 7 dni od zgłoszenia - później widnieje jako opóźniona (widok v_szkody_opoznione)
 
 Baza zapisuje w tabeli info_log informacje dotyczące logowania i wylogowania użytkowników (triggery LOGON, LOGOFF)
 Baza zapisuje w tabeli info_dane informacje dotyczące pracy z danymi w tabelach agenci, polisy, szkody (trigger DML) - do zrobienia
@@ -20,8 +20,7 @@ oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
 
 Baza 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
 
-Baza posiada możliwość indywidualnego oraz hurtowego dodawania danych (w celu uzyskania szybkiego przyrostu informacji w bazie) 
-(funkcjonalność w trakcie tworzenia, na chwilę obecną można hurtowo dodać agentów)
+Baza posiada możliwość indywidualnego oraz hurtowego dodawania danych (w celu uzyskania szybkiego przyrostu ilości danych w bazie) 
 
 Więcej informacji znajduje się w pliku Opis.docx
 
@@ -35,6 +34,32 @@ Instalacja bazy danych może odbyć się na 2 sposoby:
  
 
 Ustawienia językowe bazy danych to EE8PC852
+
+3. Zagadnienia użyte w projekcie:
+
+DML,DDL,TCL
+Users,Tablespace,Quota
+Privileges
+Table, External Table
+Partition
+Sequence
+View, Materialized View
+DataPump
+Directory
+Procedure
+Function
+Triggers DML, Logon,Logoff
+B-Tree Index, Bitmap Index
+Statistics
+Packets
+Collections
+Job
+Exception
+IF-Else
+For - Loop
+Collection --> Forall --> Table
+Bind Variables, Substitution Variables
+Execute Immediate
 
 
 Algorytm hurtowego dodawania polis: http://cacoo.com/diagrams/T1GwSGJwDbSqB0LG-E025A.png

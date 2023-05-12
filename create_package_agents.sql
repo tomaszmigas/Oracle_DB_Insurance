@@ -1,8 +1,9 @@
 PROMPT Tworzenie pakietu Agenci (spec)..
 create or replace package agenci_pkg is
-    procedure dodaj_agentow_hurt(p_nazwa_agenta varchar2 default 'Agent',p_ilosc number:=1,p_autonum BOOLEAN:=TRUE);
-    procedure dodaj_agenta(p_nazwa_agenta varchar2,p_autonum BOOLEAN:=FALSE);
     function wylosuj_agenta return  number;
+    procedure dodaj_agenta(p_nazwa_agenta varchar2,p_autonum BOOLEAN:=FALSE);
+    procedure dodaj_agenta_hurt(p_ilosc number:=1,p_nazwa_agenta varchar2 default 'Agent',p_autonum BOOLEAN:=TRUE);
+    
 end;
 /
 
@@ -32,7 +33,7 @@ create or replace package body agenci_pkg is
 -- przy imporcie calego schematu tworzone sa od nowa obiekty w tym sekwencje, tabele moga juz zawierac dane
 -- trzeba dopasowac wartosc startowa sekwencji do ilosci wierszy
     
-    procedure dodaj_agentow_hurt(p_nazwa_agenta varchar2 default 'Agent',p_ilosc number:=1,p_autonum BOOLEAN:=TRUE) IS
+    procedure dodaj_agenta_hurt(p_ilosc number:=1,p_nazwa_agenta varchar2 default 'Agent',p_autonum BOOLEAN:=TRUE) IS
         v_nazwa_agenta varchar2(100);
         v_max_agent number(10,0):=0;
     begin
@@ -58,13 +59,13 @@ create or replace package body agenci_pkg is
             dbms_output.put_line('SQLCode: ' || sqlcode || '   SQL Errm: ' || sqlerrm);
             rollback;
     
-    end dodaj_agentow_hurt;
+    end dodaj_agenta_hurt;
 --------------------------------------------------------------------
 
 --------------------------------------------------------------------
     procedure dodaj_agenta(p_nazwa_agenta varchar2,p_autonum BOOLEAN:=FALSE) IS
     BEGIN
-        dodaj_agentow_hurt(p_nazwa_agenta,1,p_autonum); --dodaj 1 agenta
+        dodaj_agenta_hurt(1,p_nazwa_agenta,p_autonum); --dodaj 1 agenta
     END;
 --------------------------------------------------------------------
 
