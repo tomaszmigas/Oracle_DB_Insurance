@@ -20,7 +20,7 @@ oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
 
 Baza 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
 
-Baza posiada możliwość indywidualnego oraz hurtowego dodawania danych (w celu uzyskania szybkiego przyrostu ilości danych w bazie) 
+W celu uzyskania szybkiego przyrostu ilości danych w bazie, posiada ona możliwość zarówno indywidualnego jak i hurtowego dodawania agentów, polis, oraz szkód.
 
 Więcej informacji znajduje się w pliku Opis.docx
 
@@ -85,5 +85,6 @@ Kod widoku V_Wskazniki_Szkodowosci
 Kod procedury Dodaj_Agentow_Hurt
 ![procedura_dodaj_agentow_hurt](https://user-images.githubusercontent.com/77076749/236802467-da0c0cb2-6345-4541-bb30-9304796c971a.JPG)
 
-Działanie Procedury dodaj_agentow_hurt
-![procedura_dodaj_polisy_hurt](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/76ac7256-34cb-4a47-b3f4-55c9987201dd)
+Działanie Procedury dodaj_polisy_hurt
+![procedura_dodaj_polisy_hurt](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/82963835-ba20-4d8e-88f0-6effb2ffa735)
+
