@@ -15,7 +15,7 @@ create or replace package body agenci_pkg is
     BEGIN
         select max(nr_agenta) into p_max_agent from agenci;  -- p_max_agent = max nr wiersza w tabeli agenci
                           
-        if p_max_agent >0 then --jezeli istnieja wiersze w tabeli agenci to ustaw sekwencje na kolejny wiersz (nawet jak jest juÅ¼ ustawiona ok)
+        if p_max_agent >0 then --jezeli istnieja wiersze w tabeli agenci to ustaw sekwencje na kolejny wiersz (nawet jak jest ju¾ ustawiona ok)
                 execute immediate 'alter table agenci 
                 modify (nr_agenta number GENERATED ALWAYS AS IDENTITY MINVALUE  1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1
                 START WITH ' || (p_max_agent +1) || ' CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE)';
@@ -52,7 +52,7 @@ create or replace package body agenci_pkg is
         ELSE 
             dbms_output.put_line('Utworzono ' || p_ilosc || ' agentow');
         END IF;
-		commit;
+		COMMIT;
     exception
         when others then
             dbms_output.put_line('Agenci_pkg.Dodaj_agentow - wyjatek Others');
@@ -77,11 +77,10 @@ function wylosuj_agenta return  number IS
     BEGIN
     
         select count(*) into v_max from agenci;
-        v_pozycja:=trunc(dbms_random.value(1,v_max));
-        select nr_agenta into v_nr_agenta from agenci offset v_pozycja rows fetch first 1 rows only;
+        v_pozycja:=trunc(dbms_random.value(1,v_max+0.99)); --pozycja wiersza na liscie agentow
+        select nr_agenta into v_nr_agenta from agenci order by nr_agenta desc offset v_pozycja-1 rows fetch first 1 rows only;
         return v_nr_agenta;
     END wylosuj_agenta;
 --------------------------------------------------------------------
 end agenci_pkg;
 /
-commit;
