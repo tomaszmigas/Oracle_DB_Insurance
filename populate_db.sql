@@ -20,7 +20,7 @@ PROMPT Wypelnianie hurtowe tabeli Polisy + Osoby + Kontrahenci(&&ilosc_polis_hur
 exec polisy_pkg.dodaj_polise_hurt (&&ilosc_polis_hurt, &&max_osob_na_polisie, &&data_polisy_od, &&data_polisy_do, &&skladka_proc, &&suma_min, &&suma_max, &&procent);
 
 PROMPT Wypelnianie hurtowe tabeli Szkody(&&ilosc_szkod_hurt)...
-exec ins.szkody_pkg.dodaj_szkode_ilosc_hurt(&&ilosc_szkod_hurt,&&max_szkod_na_polisie);
+exec ins.szkody_pkg.dodaj_szkode_hurt(&&ilosc_szkod_hurt,&&max_szkod_na_polisie);
 
 exec dbms_mview.refresh('mv_polisy_koniec');
 commit;

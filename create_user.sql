@@ -16,7 +16,7 @@ connect &&v_sys_user/&&v_sys_user_password@&&v_host:&&v_port/&&v_database
 
 PROMPT Tworzenie uzytkownika &&v_user...
 	create user &&v_user identified by &&v_password;
-	alter user &&v_user quota 100M on &&v_tablespace;
+	alter user &&v_user quota 400M on &&v_tablespace;
 
 PROMPT Tworzenie directory ins_external_table...
 CREATE OR REPLACE DIRECTORY ins_external_table AS '&&v_directory_ext';

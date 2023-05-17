@@ -16,17 +16,17 @@ define v_directory_dp =  &&v_install_directory.\datapump\
 define ilosc_agentow_hurt = 200
 
 --polisy hurt
-define ilosc_polis_hurt = 50000					-- ilosc polis do utworzenia
+define ilosc_polis_hurt = 100000				-- ilosc polis do utworzenia
 define max_osob_na_polisie = 4					-- ile osob moze byc max na 1 polisie
-define data_polisy_od = "DATE'2020-01-01'"		-- data początkowa polis
+define data_polisy_od = "DATE'1980-01-01'"		-- data początkowa polis
 define data_polisy_do = "DATE'&_DATE'"			-- data końcowa polis
-define skladka_proc = 3							-- skladka jako % wylosowanej sumy ubezepieczenia
+define skladka_proc = 2							-- skladka jako % wylosowanej sumy ubezepieczenia
 define suma_min = 500							-- minimalna  suma ubezpieczenia na polisach
 define suma_max = 50000							-- maksymalna suma ubezpieczenia na polisach
 define procent = 100							-- szansa że ubezpieczajacy bedzie tez ubezepieczonym na tej samej polisie
 
 --szkody hurt
-define ilosc_szkod_hurt = 1000					-- ilosc szkód do utworzenia na dowolnych polisach
+define ilosc_szkod_hurt = 5000					-- ilosc szkód do utworzenia na dowolnych polisach
 define max_szkod_na_polisie = 3					-- max ilość szkód na wylosowanej polisie (jeżeli polisa zostanie wylosowana kilka razy to szkód może być więcej)
 
 ------ ustawienia bazy koniec ---------------
@@ -36,6 +36,7 @@ SET VERIFY OFF
 SET FEEDBACK OFF
 --HOST chcp 852
 --exit
+
 
 -- tworzenie uzytkownika &&v_user
 PROMPT laczenie jako system...
@@ -73,9 +74,6 @@ connect &&v_user/&&v_password@&&v_host:&&v_port/&&v_database
 
 -- tworzenie widoków zmaterializowanych
 @"&&v_install_directory.\create_materialized_views.sql"
-
--- do każdej hurtowo wprowadzanej polisy generowana jest losowa ilosc powiazanych z nia osob:
--- jako 1 jako ubezpieczajacy + 1-4 jako ubezpieczony
 
 -- wypełnianie tabel danymi
 @"&&v_install_directory.\populate_db.sql"

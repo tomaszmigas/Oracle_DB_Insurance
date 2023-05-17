@@ -11,7 +11,6 @@ exec ins.polisy_pkg.dodaj_polise_hurt (500,5, DATE'1970-01-01', to_date(current_
 -- 1=ilosc szkod, 2=max ilosc szkod na 1 polisie
 exec ins.szkody_pkg.dodaj_szkode_ilosc_hurt(10,5);
 
-
 select * from ins.v_agenci_wskazniki;
 select * from V_POLISY_BEZ_SZKOD;
 select * from V_POLISY_INDYWIDUALNE;
@@ -23,6 +22,7 @@ select * from V_SZKODY_OPOZNIONE;
 select * from V_SZKODY_PRZETERMINOWANE;
 select * from V_SZKODY_WYSOKIE;
 select * from V_WSKAZNIKI_SZKODOWOSCI;
+select * from mv_polisy_koniec;
 
 
 SELECT * FROM SZKODY_STATUS;

@@ -29,8 +29,11 @@ create table polisy(
 partition by range (data_od) 
 (
  partition do1990 values less than (DATE '1990-01-01')
+,partition do1995 values less than (DATE '1995-01-01')
 ,partition do2000 values less than (DATE '2000-01-01')
+,partition do2005 values less than (DATE '2005-01-01')
 ,partition do2010 values less than (DATE '2010-01-01')
+,partition do2015 values less than (DATE '2015-01-01')
 ,partition do2020 values less than (DATE '2020-01-01')
 ,partition reszta values less than (maxvalue)
 );
@@ -88,11 +91,13 @@ create table szkody(
 partition by range (data_zajscia) 
 (
  partition do1990 values less than (DATE '1990-01-01')
+,partition do1995 values less than (DATE '1995-01-01')
 ,partition do2000 values less than (DATE '2000-01-01')
+,partition do2005 values less than (DATE '2005-01-01')
 ,partition do2010 values less than (DATE '2010-01-01')
+,partition do2015 values less than (DATE '2015-01-01')
 ,partition do2020 values less than (DATE '2020-01-01')
-,partition reszta values less than (maxvalue)
-);
+,partition reszta values less than (maxvalue));
 
 PROMPT Tworzenie tabeli info_log...
 create table info_log (

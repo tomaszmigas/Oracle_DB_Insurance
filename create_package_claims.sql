@@ -1,8 +1,7 @@
 PROMPT Tworzenie pakietu Szkody(spec)...
 create or replace package szkody_pkg is
     procedure dodaj_szkode (p_nr_polisy number, p_id_osoby number, p_data_zajscia date, p_data_zglosz date, p_id_status number,p_wart_wyplaty number);
-    procedure dodaj_szkode_ilosc_hurt (p_ilosc_szkod number, p_max_ilosc_szkod_na_polisie number);
-    procedure dodaj_szkode_proc_hurt (p_proc_szkod number, p_max_ilosc_szkod number);
+    procedure dodaj_szkode_hurt (p_ilosc_szkod number, p_max_ilosc_szkod_na_polisie number);
 end szkody_pkg;
 /
 
@@ -73,109 +72,90 @@ create or replace package body szkody_pkg is
 ----------------------------------------------
 
 ----------------------------------------------
-procedure dodaj_szkode_ilosc_hurt (p_ilosc_szkod number, p_max_ilosc_szkod_na_polisie number) IS
+procedure dodaj_szkode_hurt (p_ilosc_szkod number, p_max_ilosc_szkod_na_polisie number) IS
     TYPE t_polisy IS TABLE OF polisy.nr_polisy%TYPE;
     TYPE t_szkody IS TABLE OF szkody%rowtype;
     TYPE t_osoby IS TABLE OF  osoby.id_osoby%type;
     t_polisy_tab t_polisy:=t_polisy();                  -- kolekcja z nr polis
-    t_szkody_tab t_szkody:=t_szkody();                  --kolekcja NT szkod
-    t_osoby_tab t_osoby:=t_osoby();                     --kolekcja id_osob na wylosowanej polisie
-    v_szkody szkody%rowtype;
+    t_szkody_tab t_szkody:=t_szkody();                  -- kolekcja NT szkod
+    t_osoby_tab t_osoby:=t_osoby();                     -- kolekcja id_osob na wylosowanej polisie
+    v_szkody szkody%rowtype;                            -- rekord do zbierania danych szkody w bie¿¹cym kroku
     
-    v_ilosc_szkod_calosc number:=0;                          --calkowita ilosc szkod
-    v_ilosc_szkod_na_polisie number;
-    v_nr_wiersza number;                              --wylosowany nr kolekcji
-    v_nr_polisy number;                              --nr polisy
-    v_id_osoby number;
-    v_temp number;                                      --zmienna do przechowywania wartosci temp
-    v_data_od_polisy date;
-    v_data_do_polisy date;
-    v_suma_ubezp_polisy number;
+    v_ilosc_szkod_suma integer:=0;                      -- suma wygenerowanych szkod dla wszystkich polis
+    v_ilosc_szkod_na_polisie integer;                   -- wylosowana ilosc szkod na 1 polisie
+    v_nr_wiersza integer;                               -- wylosowany nr wybranej kolekcji
+    v_nr_polisy number;                                 
+    v_id_osoby number;                                  
+    v_temp number;                                      -- zmienna do przechowywania wartosci temp
+    v_data_od_polisy date;                              -- data startowa wylosowanej polisy
+    v_data_do_polisy date;                              -- data koncowa wylosowanej polisy
+    v_suma_ubezp_polisy number;                         -- suma ubezp wylosowanej polisy
     v_data_zajscia date;
     v_data_zgloszenia date;
     
     
 BEGIN
-    SELECT nr_polisy bulk collect into t_polisy_tab  FROM polisy;
+    SELECT nr_polisy BULK COLLECT INTO t_polisy_tab FROM polisy;
     
-    WHILE v_ilosc_szkod_calosc<p_ilosc_szkod LOOP
-        --losowy nr wiersza kolekcji z numerami polis
-        v_nr_wiersza:=trunc(dbms_random.value(t_polisy_tab.first,t_polisy_tab.last)); 
-        -- tu dostaje nr_polisy
-        v_nr_polisy:=t_polisy_tab(v_nr_wiersza);        
-        v_ilosc_szkod_na_polisie:=trunc(dbms_random.value(1,p_max_ilosc_szkod_na_polisie)); 
+    WHILE v_ilosc_szkod_suma<p_ilosc_szkod LOOP
         
-        --gdy ilosc szkod przekracza limit ogranicz ilosc szkod na ostatniej polisie
-        IF v_ilosc_szkod_calosc + v_ilosc_szkod_na_polisie > p_ilosc_szkod THEN
-            v_ilosc_szkod_na_polisie :=p_ilosc_szkod - v_ilosc_szkod_calosc;
+        
+        v_nr_wiersza:=dbms_random.value(t_polisy_tab.first,t_polisy_tab.last);          -- losowy nr wiersza z kolekcji z numerami polis
+        v_nr_polisy:=t_polisy_tab(v_nr_wiersza);                                        -- pobierz nr_polisy
+        v_ilosc_szkod_na_polisie:=dbms_random.value(1,p_max_ilosc_szkod_na_polisie);    -- wylosuj ilosc szkod na polisie
+        
+        IF v_ilosc_szkod_suma + v_ilosc_szkod_na_polisie > p_ilosc_szkod THEN           -- gdy ilosc szkod przekracza limit 
+            v_ilosc_szkod_na_polisie :=p_ilosc_szkod - v_ilosc_szkod_suma;              -- ogranicz ilosc szkod na ostatniej polisie
         END IF;
-        v_ilosc_szkod_calosc:=v_ilosc_szkod_calosc + v_ilosc_szkod_na_polisie;
+        v_ilosc_szkod_suma:=v_ilosc_szkod_suma + v_ilosc_szkod_na_polisie;
         
-        --czyszczenie kolekcji osob na danej polisie
-        t_osoby_tab.delete;
-        --kolekcja wszystkich id_osoby ktore wystepuja na danej polisie
-        SELECT distinct id_osoby bulk collect into t_osoby_tab FROM kontrahenci where nr_polisy = v_nr_polisy;
+        t_osoby_tab.delete;                                                              -- czyszczenie kolekcji osob na danej polisie
+        SELECT distinct id_osoby bulk collect into t_osoby_tab FROM kontrahenci where nr_polisy = v_nr_polisy; -- kolekcja wszystkich id_osoby ktore wystepuja na danej polisie
     
---        dbms_output.put_line('Polisa nr: ' || v_nr_polisy || '   ilosc osob: ' || t_osoby_tab.count || '  ilosc szkod: ' || v_ilosc_szkod_na_polisie);
-
+-- dbms_output.put_line('Polisa nr: ' || v_nr_polisy || '   ilosc osob: ' || t_osoby_tab.count || '  ilosc szkod: ' || v_ilosc_szkod_na_polisie);
 /*    
         dbms_output.put_line('Wylosowana polisa: ' || v_nr_polisy);
         dbms_output.put_line('Osoby na polisie:  ');
-        for i in v_osoby.first..v_osoby.last LOOP
-            dbms_output.put_line('id_osoby ' || i ||': ' || t_osoby_tab(i));
-        END LOOP;
+        for i in v_osoby.first..v_osoby.last LOOP dbms_output.put_line('id_osoby ' || i ||': ' || t_osoby_tab(i)); END LOOP;
 */
-
---dbms_output.put_line('Polisa nr: ' || v_nr_polisy || '   ilosc osob: ' || t_osoby_tab.count || '  ilosc szkod: ' || v_ilosc_szkod_na_polisie);
-
-        --dla kazdej szkody na polisie wylosuj osobe ktora ja zglasza 
-        FOR i in 1..v_ilosc_szkod_na_polisie LOOP
+        
+        FOR i in 1..v_ilosc_szkod_na_polisie LOOP    --dla kazdej szkody na polisie wylosuj osobe ktora ja zglasza 
                         
             v_szkody.nr_polisy:=v_nr_polisy;
-            v_nr_wiersza:=trunc(dbms_random.value(t_osoby_tab.first,t_osoby_tab.last)); 
+            v_nr_wiersza:=dbms_random.value(t_osoby_tab.first,t_osoby_tab.last); 
             v_szkody.id_osoby:=t_osoby_tab(v_nr_wiersza);
-            
+           
             select data_od,data_do,suma_ubezpieczenia into v_data_od_polisy,v_data_do_polisy,v_suma_ubezp_polisy from polisy where nr_polisy = v_nr_polisy;
-            -- data zajscia szkody - od poczatku polisy do 30 dni po zakonczeniu (te po terminie beda odrzucane)
-            v_szkody.data_zajscia:=generatory_pkg.generuj_date(v_data_od_polisy,v_data_do_polisy+30);
             
-            v_szkody.data_zgloszenia:= v_szkody.data_zajscia + round(dbms_random.value(0,30)); 
+            v_szkody.data_zajscia:=generatory_pkg.generuj_date(v_data_od_polisy,v_data_do_polisy+30); -- data zajscia szkody - od poczatku polisy do 30 dni po zakonczeniu
+            v_szkody.data_zgloszenia:= v_szkody.data_zajscia + round(dbms_random.value(0,30));      -- data zgloszenia - data zajscia + 0-30 dni
 
-            --korygowanie nieprawidlowosci po wygenerowaniu dat
-            IF v_szkody.data_zgloszenia > current_date THEN --gdy data zgloszenia > bie¿acej daty
-                v_szkody.data_zgloszenia:= to_date(current_date)-round(dbms_random.value(0,14));    -- cofnij date zgloszenia do bie¿acej daty lub do 14 dni wczesniej
-                IF v_szkody.data_zgloszenia < v_szkody.data_zajscia THEN --gdy data zgloszenia < daty zajscia szkody
-                    v_szkody.data_zajscia:=v_szkody.data_zgloszenia-round(dbms_random.value(0,30));    -- cofnij date zajscia 0-30 dni
+            --korygowanie nieprawidlowosci po wygenerowaniu dat zgloszen
+            IF v_szkody.data_zgloszenia > current_date THEN                                         -- gdy data zgloszenia > bie¿acej daty
+                v_szkody.data_zgloszenia:= to_date(current_date)-round(dbms_random.value(0,7));    -- cofnij date zgloszenia do bie¿acej daty lub do 0 - 14 dni wczesniej
+                IF v_szkody.data_zgloszenia < v_szkody.data_zajscia THEN                            -- gdy data zgloszenia < daty zajscia szkody
+                    v_szkody.data_zajscia:=v_szkody.data_zgloszenia-round(dbms_random.value(0,14)); -- cofnij date zajscia 0-14 dni
                 END IF;
                            
             END if;
-        
---        /*
-            -- szkoda zasz³a po okresie wa¿noœci polisy
-            IF v_szkody.data_zajscia > v_data_do_polisy THEN
-                v_szkody.id_status:=3; --odrzucona, zgloszona poza terminem polisy
-
-            -- zasz³a w okresie wa¿noœci polisy, zgloszona przed koncem polisy i zgloszenie nast¹pilo do 5 dni od dzisiaj
-            ELSIF v_szkody.data_zajscia < v_data_do_polisy and v_szkody.data_zgloszenia < v_data_do_polisy 
-            AND current_date - v_szkody.data_zgloszenia <=5  THEN
-                v_szkody.id_status:=1; --zgloszona, polisa wplynela do 5 dni od aktualnej daty
-
-            -- zasz³a w okresie wa¿noœci polisy, zgloszona przed koncem polisy i zgloszenie nast¹pilo do 14 dni od dzisiaj
-            ELSIF v_szkody.data_zajscia < v_data_do_polisy and v_szkody.data_zgloszenia < v_data_do_polisy 
-            AND current_date - v_szkody.data_zgloszenia <=14  THEN
-                v_szkody.id_status:=round(dbms_random.value(1.5,4.5)); --rozpatrywana odrzucona lub wyplacona
             
-            -- zasz³a w okresie wa¿noœci polisy, zgloszona w dowolnym czasie
-            ELSIF v_szkody.data_zajscia <= v_data_do_polisy THEN
-                v_temp:=trunc(dbms_random.value(1,4));  -- odrzucona (1) lub wyplacona (2) 
-                IF v_temp <=1 THEN                      -- 66% szans ¿e wyp³acona
-                    v_szkody.id_status:=3; --odrzucona
+            IF v_szkody.data_zajscia > v_data_do_polisy THEN
+                v_szkody.id_status:=3;                                      -- szkoda odrzucona, zgloszona poza terminem polisy
+            
+            ELSIF v_szkody.data_zajscia <= v_data_do_polisy and v_szkody.data_zgloszenia <= v_data_do_polisy AND current_date - v_szkody.data_zgloszenia <=5  THEN
+                v_szkody.id_status:=1;                                      -- zgloszonaw terminie, polisa wplynela do 5 dni od aktualnej daty
+
+            ELSIF v_szkody.data_zajscia <= v_data_do_polisy and v_szkody.data_zgloszenia <= v_data_do_polisy AND current_date - v_szkody.data_zgloszenia <=14  THEN
+                v_szkody.id_status:=2;                                      -- zgloszona w terminie, minelo do 14 dni rozpatrywana
+            
+            ELSIF v_szkody.data_zajscia <= v_data_do_polisy THEN            -- zgloszona w terminie
+                v_temp:=trunc(dbms_random.value(0.5,4.5));                  -- losowanie czy odrzucona (1) lub wyplacona (2) 
+                IF v_temp <=1 THEN                                          -- 75% szans ¿e wyp³acona
+                    v_szkody.id_status:=3;                                  -- odrzucona
                 ELSE
-                    v_szkody.id_status:=4; --wyplacona
+                    v_szkody.id_status:=4;                                  -- wyplacona
                 END IF;
             END IF;
-      
---          */      
 
             IF v_szkody.id_status=4  THEN
                 v_szkody.wartosc_wyplaty:=round(dbms_random.value(v_suma_ubezp_polisy/100,v_suma_ubezp_polisy));
@@ -201,28 +181,21 @@ dbms_output.put_line(
 );
 */
         END LOOP; --koniec dla kazdej szkody na polisie
-        
-    END LOOP;      --while
+    END LOOP;      --koniec while
 
---/*
 FORALL i IN t_szkody_tab.FIRST..t_szkody_tab.LAST
     INSERT INTO szkody VALUES t_szkody_tab(i);
 
---*/
+-- dbms_output.put_line('Dodano hurtowo szkody. Ilosc szkod: ' || t_szkody_tab.count);
 
---/*
-    dbms_output.put_line('Dodano hurtowo szkody. Ilosc szkod: ' || t_szkody_tab.count);
---*/
-
-null;
 commit;
-END  dodaj_szkode_ilosc_hurt;
+EXCEPTION
+    WHEN others THEN
+            dbms_output.put_line('Dodaj szkode hurt - exception Others');
+            dbms_output.put_line('sqlcode: ' || sqlcode);
+            dbms_output.put_line('sqlerrm: ' || sqlerrm);
 
-----------------------------------------------
-procedure dodaj_szkode_proc_hurt (p_proc_szkod number, p_max_ilosc_szkod number) IS
-begin
-    null;
-end dodaj_szkode_proc_hurt;
+END  dodaj_szkode_hurt;
 
 ----------------------------------------------
 end szkody_pkg;

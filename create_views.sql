@@ -1,3 +1,4 @@
+--HOST chcp 1250
 PROMPT Tworzenie widokÛw...
 
 CREATE OR REPLACE VIEW v_polisy_osoby AS
@@ -56,9 +57,19 @@ LEFT JOIN akt_polisy using  (nr_agenta)
 ;
 
 CREATE OR REPLACE VIEW v_szkody_przeterminowane AS
-SELECT nr_polisy,data_do WAΩNOóè_POLISY, data_zgloszenia, trunc(data_zgloszenia-data_do) dni_przekroczenia FROM szkody
+SELECT nr_polisy,data_do "WAΩNOSC_POLISY", data_zgloszenia, trunc(data_zgloszenia-data_do) dni_przekroczenia FROM szkody
 INNER JOIN polisy USING (nr_polisy)
 WHERE data_zgloszenia>data_do
+;
+
+
+
+CREATE OR REPLACE VIEW v_szkody_opoznione AS
+select  nr_polisy,data_zgloszenia,nazwa , trunc(current_date - data_zgloszenia) dni
+from szkody
+inner join szkody_status using (id_status)
+where nazwa NOT IN ('wypàacona','odrzucona')
+AND (current_date - data_zgloszenia) >14
 ;
 
 
@@ -74,15 +85,6 @@ having sum(wartosc_wyplaty)>20000
 ;
 
 
-CREATE OR REPLACE VIEW v_szkody_opoznione AS
-select  nr_polisy,data_zgloszenia,nazwa , trunc(current_date - data_zgloszenia) dni
-from szkody
-inner join szkody_status using (id_status)
-where nazwa NOT IN ('wypàacona','odrzucona')
-AND (current_date - data_zgloszenia) >14
-;
-
-
 CREATE OR REPLACE VIEW V_WSKAZNIKI_SZKODOWOSCI AS
 WITH
      p1 AS (select count(distinct nr_polisy) ilosc from szkody)
@@ -92,10 +94,13 @@ WITH
     ,w3 AS (select sum(skladka) suma from polisy p)
 SELECT 
  to_char(p2.ilosc,'999,999,990') "ILOóè POLIS"
-,to_char(round((p1.ilosc/p2.ilosc)*100,2),'990.99')|| '%' "% POLIS ZE SZKODAMI"
-,to_char(w1.suma,'999,999,999') "WYPLACONE ODSZK"
-,to_char(w2.suma,'999,999,999') "SKLADKI POLIS ZE SZKODAMI"
-,round((w2.suma/w1.suma)*100,2) || '%' "WSP SKLADKI/ODSZK"
-,to_char(w2.suma - w1.suma,'999,999,999') "BILANS POLIS ZE SKLADKAMI"
-,to_char(w3.suma - w1.suma,'999,999,999') "BILANS WSZYSTKICH POLIS"
+,to_char(round((p1.ilosc/p2.ilosc)*100,2),'990.99')|| '%' "% POLIS ZE SZK"
+,to_char(w1.suma,'999,999,999') "WYPùACONE ODSZK"
+,to_char(w2.suma,'999,999,999') "SKL POLIS ZE SZK"
+,to_char(w3.suma,'999,999,999') "SKL WSZYST POLIS"
+,round((w1.suma/w2.suma)*100,2) || '%' "WSP ODSZK/SKLADKI_SZK"
+,round((w1.suma/w3.suma)*100,2) || '%' "WSP ODSZK/SKLADKI"
+,to_char(w2.suma - w1.suma,'999,999,999') "BILANS POLIS SZK"
+,to_char(w3.suma - w1.suma,'999,999,999') "BILANS CAùOóè"
 FROM p1,p2,w1,w2,w3;
+--koniec
