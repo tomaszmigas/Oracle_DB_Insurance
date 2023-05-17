@@ -69,28 +69,45 @@ Algorytm hurtowego dodawania szkód: http://cacoo.com/diagrams/T1GwSGJwDbSqB0LG-
 
 Przykładowe screeny z DB:
 
+
 Schemat Bazy Danych
-![schemat_bd](https://user-images.githubusercontent.com/77076749/236805649-52ddc578-22e8-497c-8439-ce9c931810b9.png)
+![schemat_bd](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/d4b64314-25e7-4da4-85c9-538256ab504d)
+
 
 Instalacja ze skryptu
-![instalacja_sqlplus](https://user-images.githubusercontent.com/77076749/236795133-25262ae5-2e23-44fb-b363-30a90b5161f3.JPG)
+
+![instalacja_sqlplus](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/c907cccb-a3af-4f9e-a01c-868ec7e348b8)
+
 
 Instalacja poprzez DataPump
 
+![instalacja_imdp](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/2195def7-994a-4aef-9e2e-ab600f987caf)
+
 
 Export poprzez DataPump z podziałem tabel na partycje
+![expdp](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/cdd928a2-3be6-4b66-8753-4dc325e49d03)
+
+
+Kod i wynik działania widoku v_Wskazniki_Szkodowosci
+![wsk_szkodowosci](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/493f7c3a-88c2-49bd-a31e-2bcabdf731a6)
+
+
 
 
 Kod widoku Agenci_Wskazniki
 ![widok_agenci_wsk](https://user-images.githubusercontent.com/77076749/236795768-8b55aca5-d90a-44a6-9546-31d3426c2ca0.JPG)
 
+
 Kod widoku V_Wskazniki_Szkodowosci
 ![widok_wsk_szkod](https://user-images.githubusercontent.com/77076749/236795793-580efbc4-75bf-4950-8684-cbb2a6f6256b.JPG)
+
 
 Screen Dodaj_Agentow_Hurt
 ![procedura_dodaj_agentow_hurt](https://user-images.githubusercontent.com/77076749/236802467-da0c0cb2-6345-4541-bb30-9304796c971a.JPG)
 
-Screen Dodaj_Szkody_Ilosc_Hurt
+
+Screen Dodaj_Szkody_Hurt
+![procedura_dodaj_szkody_hurt](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/4c2d2240-9f6c-4fec-97ef-ea07d3b6aeb1)
 
 
 Działanie Procedury dodaj_polisy_hurt
