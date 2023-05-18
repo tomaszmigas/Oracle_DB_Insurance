@@ -32,8 +32,8 @@ Służą do tego procedury:
     
     ins.szkody_pkg.dodaj_szkode_hurt(ilos_szkod,max_szkod_na_1_polisie);
          szkody zostaną losowo wygenerowane dla polis które już istnieją w bazie
-
-
+         
+Głównym widokiem który pokazuje sytuację finansową Tow. Ubezpieczeniowego jest widok v_wskazniki_szkodowosci.
 Więcej informacji znajduje się w pliku Opis.docx
 
 
@@ -111,9 +111,6 @@ Kod i wynik działania widoku v_Wskazniki_Szkodowosci
 Kod widoku Agenci_Wskazniki
 ![widok_agenci_wsk](https://user-images.githubusercontent.com/77076749/236795768-8b55aca5-d90a-44a6-9546-31d3426c2ca0.JPG)
 
-
-Kod widoku V_Wskazniki_Szkodowosci
-![widok_wsk_szkod](https://user-images.githubusercontent.com/77076749/236795793-580efbc4-75bf-4950-8684-cbb2a6f6256b.JPG)
 
 
 Screen Dodaj_Agentow_Hurt
