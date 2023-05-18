@@ -1,12 +1,13 @@
 1. ZAŁOŻENIA 
 
 Projekt został wykonany w środowisku Oracle Express Edition 21c
-Tematem jest baza danych, która symuluje (w uproszczeniu) działanie towarzystwa ubezpieczeniowego.
-Możliwe jest dodawanie, usuwanie oraz modyfikacja agentów, polis, osób, szkód wraz z powiązanymi danymi z innych tabel.
+Tematem jest baza danych, która symuluje w uproszczeniu działanie towarzystwa ubezpieczeniowego.
+Możliwe jest dodawanie, usuwanie oraz modyfikacja agentów, polis, osób oraz szkód wraz z powiązanymi danymi z innych tabel.
 
 Każda polisa jest powiązana z 1 agentem.
 Każdy agent może wprowadzić wiele polis.
 Do każdej polisy są przypisane osoby: jedna jako ubezpieczający oraz jedna lub wiele jako ubezpieczeni.
+Osoba ubezpieczająca może (ale nie musi) występować też jako osoba ubezpieczona na tej samej polisie.
 Z każdej polisy można zgłosić jedną lub wiele szkód.
 Szkoda ma 4 możliwe statusy: zgłoszona (1), rozpatrywana (2), odrzucona (3), wypłacona (4).
 Tylko dla statusu 4 kwota wypłaty może być większa od 0
@@ -16,11 +17,22 @@ Po 14 dniach szkoda powinna mieć 1 z 2 statusów "odrzucona" lub "wypłacona".
 
 Baza zapisuje w tabeli info_log informacje dotyczące logowania i wylogowania użytkowników (triggery LOGON, LOGOFF)
 Baza zapisuje w tabeli info_dane informacje dotyczące pracy z danymi w tabelach agenci, polisy, szkody (trigger DML) - do zrobienia
-Baza 1 raz dziennie uruchamia job  o nazwie „job_stat” który odświeża statystyki tabel faktów (tabele polisy, kontrahenci, szkody) 
+Baza 1 raz dziennie uruchamia job o nazwie „job_stat” który odświeża statystyki tabel faktów (tabele polisy, kontrahenci, szkody) 
 oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
 Baza 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
 
-W celu uzyskania szybkiego przyrostu ilości danych w bazie, posiada ona możliwość zarówno indywidualnego jak i hurtowego dodawania agentów, polis oraz szkód.
+W celu uzyskania szybkiego przyrostu ilości danych w bazie, posiada ona możliwość hurtowego dodawania agentów, polis oraz szkód.
+Służą do tego procedury:
+
+    ins.agenci_pkg.dodaj_agenta_hurt(ilosc,nazwa_agenta,autonum)
+    
+    ins.polisy_pkg.dodaj_polise_hurt(ilosc_polis,max_osob_na_1_polisie, data_min, data_max,skladka_proc,suma_min,suma_max,proc_uu)
+         polisy zostaną losowo przydzielone do agentów którzy już istnieją w bazie
+         proc_uu - prawdopodobienstwo w % że ubezpieczający na polisie będzie też występował na niej jako ubezpieczony
+    
+    ins.szkody_pkg.dodaj_szkode_hurt(ilos_szkod,max_szkod_na_1_polisie);
+         szkody zostaną losowo wygenerowane dla polis które już istnieją w bazie
+
 
 Więcej informacji znajduje się w pliku Opis.docx
 
@@ -33,39 +45,41 @@ a) poprzez uruchomienie w bazie danych skryptu z pliku 00_create.sql (należy us
 
 b) poprzez import pliku insurance_schema.dmp wygenerowanego przez expdp, zawierającego ostatnią wersję schematu INS z bazą danych (w tym wypadku należy mieć już utworzony schemat użytkownika z nadanymi odpowiednimi uprawnieniami - przykładowy plik: user.sql)
  
-
 Ustawienia językowe bazy danych to EE8PC852
+
 
 3. Zagadnienia użyte w projekcie:
 
-DML,DDL,TCL
-Users, Tablespace, Quota
-Subquery, JOIN
-Privileges
-Table, External Table
-Partition: By Range
-Sequence
-View
-Materialized View
-DataPump: expdp, impdp
-Directory
-Procedure
-Function
-Triggers: DML, Logon, Logoff
-Index: B-Tree, Bitmap
-Statistics: Table Statistics
-Packages
-Collections
-Job
-Exception
-IF-Else
-FOR - LOOP
-BULK COLLECT, FORALL
-Bind Variables, Substitution Variables
-Execute Immediate
+       DML,DDL,TCL
+       Users, Tablespace, Quota
+       Privileges: System Privileges, Object Privileges
+       Subquery, JOIN, CTE (WITH)
+       Table: Primary Key, Foreign Key, Constraint, Unique Index, Sequence (Identity), Partition By Range
+       External Table
+       View
+       Materialized View (refresh on demand)
+       DataPump: expdp, impdp
+       Directory
+       Procedure
+       Function
+       Trigger: DML, Logon, Logoff
+       Index: B-Tree, Bitmap
+       Statistics: Table Statistics
+       Package (Spec + Body)
+       Collection
+       Job
+       Exception
+       IF-Else
+       FOR - LOOP
+       BULK COLLECT, FORALL
+       Bind Variable, Substitution Variable
+       Execute Immediate
 
 Algorytm hurtowego dodawania polis: http://cacoo.com/diagrams/T1GwSGJwDbSqB0LG-E025A.png
+
 Algorytm hurtowego dodawania szkód: http://cacoo.com/diagrams/T1GwSGJwDbSqB0LG-CDCF8.png
+
+
 
 Przykładowe screeny z DB:
 
@@ -84,7 +98,7 @@ Instalacja poprzez DataPump
 ![instalacja_imdp](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/2195def7-994a-4aef-9e2e-ab600f987caf)
 
 
-Export poprzez DataPump z podziałem tabel na partycje
+Export poprzez DataPump (widoczny podział tabel na partycje)
 ![expdp](https://github.com/tomaszmigas/Oracle_DB_Insurance/assets/77076749/cdd928a2-3be6-4b66-8753-4dc325e49d03)
 
 
