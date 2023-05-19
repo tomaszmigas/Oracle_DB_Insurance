@@ -16,7 +16,7 @@ define v_directory_dp =  &&v_install_directory.\datapump\
 define ilosc_agentow_hurt = 200
 
 --polisy hurt
-define ilosc_polis_hurt = 100000				-- ilosc polis do utworzenia
+define ilosc_polis_hurt = 10000					-- ilosc polis do utworzenia
 define max_osob_na_polisie = 4					-- ile osob moze byc max na 1 polisie
 define data_polisy_od = "DATE'1970-01-01'"			-- data początkowa polis
 define data_polisy_do = "DATE'&_DATE'"				-- data końcowa polis
@@ -26,7 +26,7 @@ define suma_max = 100000					-- maksymalna suma ubezpieczenia na polisach
 define procent = 100						-- szansa że ubezpieczajacy bedzie tez ubezepieczonym na tej samej polisie
 
 --szkody hurt
-define ilosc_szkod_hurt = 5000					-- ilosc szkód do utworzenia na dowolnych polisach
+define ilosc_szkod_hurt = 500					-- ilosc szkód do utworzenia na dowolnych polisach
 define max_szkod_na_polisie = 3					-- max ilość szkód na wylosowanej polisie (jeżeli polisa zostanie wylosowana kilka razy to szkód może być więcej)
 
 ------ ustawienia bazy koniec ---------------
