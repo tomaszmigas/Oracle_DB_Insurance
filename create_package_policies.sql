@@ -175,9 +175,8 @@ FORALL i IN v_osoby.FIRST..v_osoby.LAST
 FORALL i IN v_kontrahenci.FIRST..v_kontrahenci.LAST
     INSERT INTO kontrahenci VALUES v_kontrahenci(i);
 
---/*
-    dbms_output.put_line('Dodano hurtowo polisy. Ilosc polis: ' || v_polisy.count || '  Ilosc osob: ' || v_osoby.count);
---*/
+-- dbms_output.put_line('Dodano hurtowo polisy. Ilosc polis: ' || v_polisy.count || '  Ilosc osob: ' || v_osoby.count);
+
 
 
 commit;

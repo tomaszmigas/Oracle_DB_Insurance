@@ -5,17 +5,17 @@ exec ins.agenci_pkg.dodaj_agenta_hurt(p_ilosc=>50,p_nazwa_agenta =>' Towarzystwo
 
 -- dodawanie polis------------
 -- 1=ilosc polis 2=max ilosc osob na polisie 3=data poczatkowa polis 4=data koncowa polis 5=min suma ubezp 6=max suma ubezp 7=szansa ze ubezepiczajacy bedzie tez ubezpieczonym na tej samej polisie
-exec ins.polisy_pkg.dodaj_polise_hurt (500,5, DATE'1970-01-01', to_date(current_date),20,4000, 100000,40);
+exec ins.polisy_pkg.dodaj_polise_hurt (300000,3, DATE'1970-01-01', to_date(current_date),2,4000, 100000,40);
 
 -- dodawanie szkod------------
 -- 1=ilosc szkod, 2=max ilosc szkod na 1 polisie
-exec ins.szkody_pkg.dodaj_szkode_ilosc_hurt(10,5);
+exec ins.szkody_pkg.dodaj_szkode_hurt(45000,3);
 
-select * from ins.v_agenci_wskazniki;
+select * from v_agenci_wskazniki;
 select * from V_POLISY_BEZ_SZKOD;
 select * from V_POLISY_INDYWIDUALNE;
 select * from V_POLISY_INDYWIDUALNE_WLASCICIELI;
-select * from V_POLISY_OSOBY order by ilosc_polis desc;
+select * from V_POLISY_OSOBY where rownum <20 order by ilosc_polis desc;
 select * from V_POLISY_PRZEKROCZONA_WARTOSC;
 select * from V_POLISY_WLASCICIELE;
 select * from V_SZKODY_OPOZNIONE;

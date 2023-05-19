@@ -11,7 +11,7 @@ INNER JOIN kontrahenci using(nr_polisy)
 INNER JOIN osoby using (id_osoby)
 INNER JOIN rola using(id_roli)
 WHERE 
-nazwa = 'ubezpieczaj¥cy'
+nazwa = 'ubezpieczaj¹cy'
 AND (data_do - current_date) between 0 and 7
 order by pozostalo_dni desc
 ;

@@ -10,9 +10,9 @@ dbms_scheduler.create_program (
         v_ilosc_k number;
         v_ilosc_s number;
     BEGIN
-        dbms_stats.gather_table_stats(ownname=>''INS'',tabname=>''polisy'',cascade=>true);
-        dbms_stats.gather_table_stats(ownname=>''INS'',tabname=>''kontrahenci'',cascade=>true);
-        dbms_stats.gather_table_stats(ownname=>''INS'',tabname=>''szkody'',cascade=>true);
+        dbms_stats.gather_table_stats(ownname=>''&&v_user'',tabname=>''polisy'',cascade=>true);
+        dbms_stats.gather_table_stats(ownname=>''&&v_user'',tabname=>''kontrahenci'',cascade=>true);
+        dbms_stats.gather_table_stats(ownname=>''&&v_user'',tabname=>''szkody'',cascade=>true);
         SELECT num_rows into v_ilosc_p FROM user_tab_statistics where table_name = ''POLISY'' AND PARTITION_NAME IS NULL;
         SELECT num_rows into v_ilosc_k FROM user_tab_statistics where table_name = ''KONTRAHENCI'' AND PARTITION_NAME IS NULL;
         SELECT num_rows into v_ilosc_s FROM user_tab_statistics where table_name = ''SZKODY'' AND PARTITION_NAME IS NULL;

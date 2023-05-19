@@ -7,7 +7,7 @@ define v_sys_user_password = sys1
 define v_user = ins
 define v_password = ins
 define v_tablespace = USERS
-define v_install_directory = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance
+define v_install_directory = c:\app\Tomek\product\21c\oradata\XE\XEPDB3\insurance\
 
 define v_directory_ext = &&v_install_directory.\external_tables\
 define v_directory_dp =  &&v_install_directory.\datapump\
@@ -18,12 +18,12 @@ define ilosc_agentow_hurt = 200
 --polisy hurt
 define ilosc_polis_hurt = 100000				-- ilosc polis do utworzenia
 define max_osob_na_polisie = 4					-- ile osob moze byc max na 1 polisie
-define data_polisy_od = "DATE'1980-01-01'"		-- data początkowa polis
-define data_polisy_do = "DATE'&_DATE'"			-- data końcowa polis
-define skladka_proc = 2							-- skladka jako % wylosowanej sumy ubezepieczenia
-define suma_min = 500							-- minimalna  suma ubezpieczenia na polisach
-define suma_max = 50000							-- maksymalna suma ubezpieczenia na polisach
-define procent = 100							-- szansa że ubezpieczajacy bedzie tez ubezepieczonym na tej samej polisie
+define data_polisy_od = "DATE'1970-01-01'"			-- data początkowa polis
+define data_polisy_do = "DATE'&_DATE'"				-- data końcowa polis
+define skladka_proc = 2						-- skladka jako % wylosowanej sumy ubezepieczenia
+define suma_min = 500						-- minimalna  suma ubezpieczenia na polisach
+define suma_max = 100000					-- maksymalna suma ubezpieczenia na polisach
+define procent = 100						-- szansa że ubezpieczajacy bedzie tez ubezepieczonym na tej samej polisie
 
 --szkody hurt
 define ilosc_szkod_hurt = 5000					-- ilosc szkód do utworzenia na dowolnych polisach

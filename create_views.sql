@@ -40,7 +40,7 @@ minus
 select distinct nr_polisy from szkody;
 
 CREATE OR REPLACE VIEW v_polisy_przekroczona_wartosc AS
-SELECT nr_polisy, suma_ubezpieczenia, sum(wartosc_wyplaty) AS suma_wyplat FROM szkody
+SELECT nr_polisy, suma_ubezpieczenia, sum(wartosc_wyplaty) AS suma_wyplat, (sum(wartosc_wyplaty)- suma_ubezpieczenia) "PRZEKROCZENIE"  FROM szkody
 INNER JOIN polisy USING (nr_polisy)
 GROUP BY suma_ubezpieczenia, nr_polisy
 HAVING SUM(wartosc_wyplaty) > suma_ubezpieczenia
@@ -57,7 +57,7 @@ LEFT JOIN akt_polisy using  (nr_agenta)
 ;
 
 CREATE OR REPLACE VIEW v_szkody_przeterminowane AS
-SELECT nr_polisy,data_do "WAΩNOSC_POLISY", data_zgloszenia, trunc(data_zgloszenia-data_do) dni_przekroczenia FROM szkody
+SELECT nr_polisy,data_do "WAØNOSC_POLISY", data_zgloszenia, trunc(data_zgloszenia-data_do) dni_przekroczenia FROM szkody
 INNER JOIN polisy USING (nr_polisy)
 WHERE data_zgloszenia>data_do
 ;
@@ -68,7 +68,7 @@ CREATE OR REPLACE VIEW v_szkody_opoznione AS
 select  nr_polisy,data_zgloszenia,nazwa , trunc(current_date - data_zgloszenia) dni
 from szkody
 inner join szkody_status using (id_status)
-where nazwa NOT IN ('wypàacona','odrzucona')
+where nazwa NOT IN ('wyp≥acona','odrzucona')
 AND (current_date - data_zgloszenia) >14
 ;
 
@@ -79,7 +79,7 @@ inner join polisy p using(nr_polisy)
 inner join kontrahenci k using (nr_polisy)
 inner join osoby o on (o.id_osoby = k.id_osoby)
 inner join rola r using (id_roli)
-where r.nazwa = 'ubezpieczaj•cy'
+where r.nazwa = 'ubezpieczajπcy'
 group by pesel
 having sum(wartosc_wyplaty)>20000
 ;
@@ -89,18 +89,20 @@ CREATE OR REPLACE VIEW V_WSKAZNIKI_SZKODOWOSCI AS
 WITH
      p1 AS (select count(distinct nr_polisy) ilosc from szkody)
     ,p2 AS (select count(distinct nr_polisy) ilosc from polisy)
+    ,p3 AS (select count(id_szkody) ilosc from szkody)
     ,w1 AS (select sum(wartosc_wyplaty) suma from szkody)
     ,w2 AS (select sum(skladka) suma from polisy p where exists (SELECT 1 FROM szkody s WHERE p.nr_polisy = s.nr_polisy))
     ,w3 AS (select sum(skladka) suma from polisy p)
 SELECT 
- to_char(p2.ilosc,'999,999,990') "ILOóè POLIS"
+ to_char(p2.ilosc,'999,999,990') "ILOå∆ POLIS"
+,to_char(p3.ilosc,'999,999,990') "ILOå∆ SZK”D"
 ,to_char(round((p1.ilosc/p2.ilosc)*100,2),'990.99')|| '%' "% POLIS ZE SZK"
-,to_char(w1.suma,'999,999,999') "WYPùACONE ODSZK"
+,to_char(w1.suma,'999,999,999') "WYP£ACONE ODSZK"
 ,to_char(w2.suma,'999,999,999') "SKL POLIS ZE SZK"
 ,to_char(w3.suma,'999,999,999') "SKL WSZYST POLIS"
-,round((w1.suma/w2.suma)*100,2) || '%' "WSP ODSZK/SKLADKI_SZK"
-,round((w1.suma/w3.suma)*100,2) || '%' "WSP ODSZK/SKLADKI"
+,round((w1.suma/w2.suma)*100,2) || '%' "ODSZK/SK£ADKI_SZK"
+,round((w1.suma/w3.suma)*100,2) || '%' "ODSZK/SK£ADKI"
 ,to_char(w2.suma - w1.suma,'999,999,999') "BILANS POLIS SZK"
-,to_char(w3.suma - w1.suma,'999,999,999') "BILANS CAùOóè"
-FROM p1,p2,w1,w2,w3;
---koniec
+,to_char(w3.suma - w1.suma,'999,999,999') "BILANS CA£Oå∆"
+FROM p1,p2,P3,w1,w2,w3;
+--koniec 

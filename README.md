@@ -45,7 +45,10 @@ a) poprzez uruchomienie w bazie danych skryptu z pliku 00_create.sql (należy us
 
 b) poprzez import pliku insurance_schema.dmp wygenerowanego przez expdp, zawierającego ostatnią wersję schematu INS z bazą danych (w tym wypadku należy mieć już utworzony schemat użytkownika z nadanymi odpowiednimi uprawnieniami - przykładowy plik: user.sql)
  
-Ustawienia językowe bazy danych to EE8PC852
+Ustawienie zmiennej NLS_LANG to ENGLISH_POLAND.EE8MSWIN1250
+Aby poprawnie wyświetlać polskie znaki w SQLPlus należy zmienić jego stronę kodową na 1250 (wtedy poprawnie wyświetlają się dane zarówno
+w SQLPlus jak i SQLDeveloper - można wprowadzać dane ręczne, lub poprzez skrypty i wszędzie są prawidłowo pokazywane polskie znaki)
+
 
 
 3. Zagadnienia użyte w projekcie:
