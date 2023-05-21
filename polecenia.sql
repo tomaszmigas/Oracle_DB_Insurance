@@ -5,7 +5,7 @@ exec ins.agenci_pkg.dodaj_agenta_hurt(p_ilosc=>50,p_nazwa_agenta =>' Towarzystwo
 
 -- dodawanie polis------------
 -- 1=ilosc polis 2=max ilosc osob na polisie 3=data poczatkowa polis 4=data koncowa polis 5=min suma ubezp 6=max suma ubezp 7=szansa ze ubezepiczajacy bedzie tez ubezpieczonym na tej samej polisie
-exec ins.polisy_pkg.dodaj_polise_hurt (300000,3, DATE'1970-01-01', to_date(current_date),2,4000, 100000,40);
+exec ins.polisy_pkg.dodaj_polise_hurt (50000,3, DATE'1970-01-01', to_date(current_date),2,4000, 100000,40);
 
 -- dodawanie szkod------------
 -- 1=ilosc szkod, 2=max ilosc szkod na 1 polisie

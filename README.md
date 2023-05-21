@@ -15,23 +15,35 @@ Szkoda do 5 dni od zgłoszenia widnieje jako "zgłoszona"
 Po 5 dniach widnieje jako "rozpatrywana" i powinna być rozpatrzona w czasie do 14 dni od zgłoszenia.
 Po 14 dniach szkoda powinna mieć 1 z 2 statusów "odrzucona" lub "wypłacona".
 
-Baza zapisuje w tabeli info_log informacje dotyczące logowania i wylogowania użytkowników (triggery LOGON, LOGOFF)
-Baza zapisuje w tabeli info_dane informacje dotyczące pracy z danymi w tabelach agenci, polisy, szkody (trigger DML) - do zrobienia
-Baza 1 raz dziennie uruchamia job o nazwie „job_stat” który odświeża statystyki tabel faktów (tabele polisy, kontrahenci, szkody) 
-oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
-Baza 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
+Baza automatycznie 
+	 
+ - zapisuje w tabeli info_log informacje dotyczące logowania i wylogowania użytkowników (triggery LOGON, LOGOFF)
+	 
+ - sprawdza czy dla wpisywanej ręcznie szkody istnieje już odpowiedni wpis w tabeli kontrahenci - Trigger DML
+	 
+ - zapisuje w tabeli info_dane informacje dotyczące pracy z danymi w tabelach agenci, polisy, szkody (trigger DML) - do zrobienia
+	
+ - 1 raz dziennie uruchamia job o nazwie „job_stat” który odświeża statystyki tabel faktów (tabele polisy, kontrahenci, szkody) 
+	 oraz zapisuje dane o liczbie ich wierszy do tabeli stat_info.
+	
+ - 1 raz dziennie odświeża widok zmaterializowany o nazwie „mv_polisy_koniec” który zawiera informacje nt. polis oraz ich właścicieli, dla polis których termin ważności upływa w ciągu 7 dni
 
 W celu uzyskania szybkiego przyrostu ilości danych w bazie, posiada ona możliwość hurtowego dodawania agentów, polis oraz szkód.
 Służą do tego procedury:
 
-    ins.agenci_pkg.dodaj_agenta_hurt(ilosc,nazwa_agenta,autonum)
+    agenci_pkg.dodaj_agenta_hurt(ilosc,nazwa_agenta,autonum)
+		wygenerowani zostaną hurtowo agenci o podanej nazwie, do nazwy może być automatycznie dodawany kolejny numer (autonum=TRUE)
     
-    ins.polisy_pkg.dodaj_polise_hurt(ilosc_polis,max_osob_na_1_polisie, data_min, data_max,skladka_proc,suma_min,suma_max,proc_uu)
-         polisy zostaną losowo przydzielone do agentów którzy już istnieją w bazie
-         proc_uu - prawdopodobienstwo w % że ubezpieczający na polisie będzie też występował na niej jako ubezpieczony
+    polisy_pkg.dodaj_polise_hurt(ilosc_polis,max_osob_na_1_polisie, data_min, data_max,skladka_proc,suma_min,suma_max,proc_uu)
+		polisy zostaną wygenerowane i losowo przydzielone do agentów którzy już istnieją w bazie graniczne daty polis będą się mieściły w zadanym zakresie
+		dla każdej wygenerowanej polisy zostaną wygenerowane osoby które będą na niej występowały (pesel,imię, nazwisko)
+		osoby zostaną powiązane z polisą poprzez tabelę kontrahenci, gdzie dodatkowo będzie określona ich rola na polisie
+		proc_uu - prawdopodobienstwo w % że ubezpieczający na polisie będzie też występował na niej jako ubezpieczony
     
-    ins.szkody_pkg.dodaj_szkode_hurt(ilos_szkod,max_szkod_na_1_polisie);
-         szkody zostaną losowo wygenerowane dla polis które już istnieją w bazie
+    szkody_pkg.dodaj_szkode_hurt(ilos_szkod,max_szkod_na_1_polisie);
+		szkody zostaną losowo wygenerowane dla polis które już istnieją w bazie
+		na każdej polisie może zostać wygenerowane wiele szkód, których daty zajścia lub zgłoszenia mogą lub nie mieścić się w okresie trwania polisy
+		szkody są zgłaszane przez osobę która jest na polisie
          
 Głównym widokiem który pokazuje sytuację finansową Tow. Ubezpieczeniowego jest widok v_wskazniki_szkodowosci.
 Więcej informacji znajduje się w pliku Opis.docx
